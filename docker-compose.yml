@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: tala_trivia_db      # Nombre de la base de datos
+      POSTGRES_USER: user              # Nombre de usuario de PostgreSQL
+      POSTGRES_PASSWORD: password      # Contraseña de usuario
+    ports:
+      - "5432:5432"                    # Puerto por defecto de PostgreSQL
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - tala_network
+
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    networks:
+      - tala_network
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com   # Email para pgAdmin
+      PGADMIN_DEFAULT_PASSWORD: admin           # Contraseña para pgAdmin
+    ports:
+      - "5050:80"                              # Acceder a pgAdmin en http://localhost:5050
+    depends_on:
+      - db
+    networks:
+      - tala_network
+
+networks:
+  tala_network:
+
+volumes:
+  postgres_data:
