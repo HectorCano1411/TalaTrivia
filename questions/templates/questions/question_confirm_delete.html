@@ -1,0 +1,11 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+<h1>Eliminar Pregunta</h1>
+<p>¿Estás seguro de que deseas eliminar esta pregunta?</p>
+<form method="post"action="{% url 'question-delete' question.id %}">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Eliminar</button>
+    <a href="{% url 'question-list' %}" class="btn btn-secondary">Cancelar</a>
+</form>
+{% endblock %}

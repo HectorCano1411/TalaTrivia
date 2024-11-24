@@ -42,14 +42,22 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'rest_framework.authtoken',
     'django_extensions',
+    'corsheaders',
     'users',
     'questions',
     'trivias',
     'ranking',
 ]
 
+# Desactivar CSRF para las vistas de la API
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost:8000',
+    'http://localhost:3000',  # Si tu frontend está en el puerto 3000
+]
+
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
+        # 'rest_framework.authentication.BasicAuthentication',
         'rest_framework_simplejwt.authentication.JWTAuthentication',  # Use JWT Authentication
     ],
     'DEFAULT_PERMISSION_CLASSES': [
@@ -60,16 +68,20 @@ REST_FRAMEWORK = {
         'rest_framework.renderers.BrowsableAPIRenderer',  # Enable Browsable API for interactive UI
     ],
 }
+from datetime import timedelta
 
 # JWT settings for token-based authentication
+
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': '1 hour',  # Adjust the token expiration time as needed
-    'REFRESH_TOKEN_LIFETIME': '1 day',
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),  # Token de acceso expira en 30 minutos
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),     # Token de refresco expira en 1 día
     'ROTATE_REFRESH_TOKENS': False,
-    'BLACKLIST_AFTER_ROTATION': False,
+    'BLACKLIST_AFTER_ROTATION': True,
+    'UPDATE_LAST_LOGIN': True,
 }
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',  # Debe estar arriba
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -79,12 +91,33 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",  # Si estás usando un frontend en React
+    "http://localhost:8000",  # Si necesitas que Django acepte solicitudes desde su propio dominio
+]
+
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_METHODS = [
+    'GET',
+    'POST',
+    'PUT',
+    'PATCH',
+    'DELETE',
+    'OPTIONS'
+]
+LOGIN_URL = '/users/login/'  # URL definida en tu aplicación users
+
+
+
 ROOT_URLCONF = 'tala_trivia.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            BASE_DIR / 'templates',  # Directorio global de plantillas
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
