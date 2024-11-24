@@ -26,6 +26,8 @@ urlpatterns = [
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/users/', include('users.urls')),  # Incluir las rutas de usuarios
     path('questions/', include('questions.urls')),  # Incluir las rutas de preguntas
+    path('api/', include('trivias.urls')),  # Incluir las URLs de la aplicación 'trivias'
+
     
     # Agregar la ruta de Swagger para la documentación interactiva
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
