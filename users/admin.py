@@ -1,55 +1,44 @@
 from django.contrib import admin
-from django.contrib.auth import get_user_model
-from django.contrib.auth.models import Group, Permission
 from django.contrib.auth.admin import UserAdmin
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+from django import forms
 from .models import CustomUser
 
-# Definir un formulario de usuario personalizado si deseas personalizar la interfaz de edición de usuarios
-from django import forms
-
-class CustomUserChangeForm(forms.ModelForm):
+# Formularios personalizados para el modelo de usuario
+class CustomUserCreationForm(UserCreationForm):
     class Meta:
         model = CustomUser
-        fields = ('username', 'first_name', 'last_name', 'email', 'is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')
+        fields = ('username', 'email', 'first_name', 'last_name')
 
-class CustomUserCreationForm(forms.ModelForm):
+class CustomUserChangeForm(UserChangeForm):
     class Meta:
         model = CustomUser
-        fields = ('username', 'first_name', 'last_name', 'email', 'password')
+        fields = ('username', 'email', 'first_name', 'last_name', 'is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')
 
-# Personalizar la visualización y administración del usuario personalizado
+# Personalización del administrador de usuarios
 class CustomUserAdmin(UserAdmin):
-    # Establecer el formulario de cambio de usuario y creación de usuario
     form = CustomUserChangeForm
     add_form = CustomUserCreationForm
 
-    # Especificar qué campos se mostrarán en la lista de usuarios
-    list_display = ('username', 'first_name', 'last_name', 'email', 'is_active', 'is_staff', 'is_superuser')
-    list_filter = ('is_active', 'is_staff', 'is_superuser', 'groups')
+    list_display = ('username', 'email', 'first_name', 'last_name', 'is_active', 'is_staff', 'is_superuser')
+    list_filter = ('is_staff', 'is_superuser', 'is_active', 'groups')
 
-    # Los campos que se mostrarán en el formulario de detalles del usuario
     fieldsets = (
         (None, {'fields': ('username', 'password')}),
         ('Personal info', {'fields': ('first_name', 'last_name', 'email')}),
         ('Permissions', {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),
         ('Important dates', {'fields': ('last_login', 'date_joined')}),
     )
-    # Los campos que se mostrarán en el formulario de creación de usuario
+
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('username', 'first_name', 'last_name', 'email', 'password1', 'password2'),
+            'fields': ('username', 'email', 'first_name', 'last_name', 'password1', 'password2'),
         }),
     )
-    search_fields = ('username', 'first_name', 'last_name', 'email')
+
+    search_fields = ('username', 'email', 'first_name', 'last_name')
     ordering = ('username',)
 
-# Registrar el modelo personalizado de usuario con la administración de Django
+# Registrar el modelo con el administrador personalizado
 admin.site.register(CustomUser, CustomUserAdmin)
-
-# Opcional: Registra el modelo de Grupo y Permiso si deseas personalizar su administración también
-admin.site.unregister(Group)  # Si deseas desregistrar el Grupo predeterminado
-admin.site.register(Group)  # Si quieres hacerlo accesible para personalizar la gestión de grupos
-
-# También puedes registrar permisos adicionales si necesitas manejarlos específicamente
-admin.site.register(Permission)

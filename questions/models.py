@@ -1,8 +1,5 @@
-from django.db import models
-
 # Create your models here.
 # questions/models.py
-
 from django.db import models
 
 class Question(models.Model):

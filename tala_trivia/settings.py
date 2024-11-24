@@ -38,20 +38,37 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'drf_yasg',
+    'rest_framework_simplejwt',
     'rest_framework.authtoken',
+    'django_extensions',
     'users',
     'questions',
     'trivias',
     'ranking',
 ]
+
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',  # Use JWT Authentication
     ],
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated',
+        'rest_framework.permissions.IsAuthenticated',  # Default permissions to authenticated users
+    ],
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',  # Default renderer
+        'rest_framework.renderers.BrowsableAPIRenderer',  # Enable Browsable API for interactive UI
     ],
 }
+
+# JWT settings for token-based authentication
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': '1 hour',  # Adjust the token expiration time as needed
+    'REFRESH_TOKEN_LIFETIME': '1 day',
+    'ROTATE_REFRESH_TOKENS': False,
+    'BLACKLIST_AFTER_ROTATION': False,
+}
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -141,3 +158,8 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
     
+# Custom settings for Swagger documentation and API root
+SWAGGER_SETTINGS = {
+    'USE_SESSION_AUTH': False,
+    'VALIDATOR_URL': None,
+}

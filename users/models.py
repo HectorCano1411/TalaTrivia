@@ -17,3 +17,7 @@ class CustomUser(AbstractUser):
         help_text="Specific permissions for this user.",
         verbose_name="user permissions",
     )
+    def assign_role(self, role_name):
+        group, created = Group.objects.get_or_create(name=role_name)
+        self.groups.add(group)
+        self.save()
