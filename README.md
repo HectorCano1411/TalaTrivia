@@ -79,7 +79,6 @@ Primero, es necesario registrar un usuario para poder probar los endpoints.
 - **URL:** `http://localhost:8000/api/users/register/`
 
 **Cuerpo de la solicitud (JSON):**
-```json
 {
   "username": "prueba",
   "email": "user@example.com",
