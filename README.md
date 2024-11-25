@@ -102,13 +102,13 @@ Primero, es necesario registrar un usuario para poder probar los endpoints.
 -Content type
 -application/json
 
-body/raw/json
 **Cuerpo de la solicitud (JSON):**
-
+```
 {
   "username": "prueba",
   "password": "prueba987"
 }
+```
 
 -Despues de generar el toke es posible comenzar a interactuar con los demas endpoint de la API
 -Es necesario incorporar el token que entrega como access en Autorization y seleccionar Bearer Token e ingresar en la casilla correspondiente.
