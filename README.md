@@ -86,7 +86,7 @@ Primero, es necesario registrar un usuario para poder probar los endpoints.
   "password": "prueba987",
   "is_staff": true,
   "is_superuser": true
-}```
+}
 
 
 ## 2. Generar un Token de Acceso
@@ -105,7 +105,7 @@ Primero, es necesario registrar un usuario para poder probar los endpoints.
 
 body/raw/json
 **Cuerpo de la solicitud (JSON):**
-```json
+
 {
   "username": "prueba",
   "password": "prueba987"
