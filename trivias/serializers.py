@@ -2,6 +2,7 @@ from rest_framework import serializers
 from .models import Trivia
 from users.models import CustomUser
 from questions.models import Question
+from .models import Participation
 
 class TriviaSerializer(serializers.ModelSerializer):
     users = serializers.PrimaryKeyRelatedField(
@@ -54,3 +55,16 @@ class TriviaSerializer(serializers.ModelSerializer):
         instance.users.set(users)  # Actualizar usuarios
         instance.questions.set(questions)  # Actualizar preguntas
         return instance
+
+
+
+class ParticipationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Participation
+        fields = ['id', 'trivia', 'user', 'answers', 'score']
+    
+    def validate(self, data):
+        # Validar que el usuario no participe más de una vez en la misma trivia
+        if Participation.objects.filter(user=data['user'], trivia=data['trivia']).exists():
+            raise serializers.ValidationError("Ya participaste en esta trivia.")
+        return data

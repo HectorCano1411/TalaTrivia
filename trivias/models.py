@@ -1,6 +1,5 @@
 # trivias/models.py
-# Create your models here.
-# trivias/models.py
+from django.contrib.auth import get_user_model
 from django.db import models
 from users.models import CustomUser
 from questions.models import Question
@@ -16,23 +15,48 @@ class Trivia(models.Model):
     def __str__(self):
         return self.name
 
+# Usamos el CustomUser definido
+CustomUser = get_user_model()
 
 class Participation(models.Model):
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    trivia = models.ForeignKey(Trivia, on_delete=models.CASCADE)
-    answers = models.JSONField()  # Almacena las respuestas del usuario
-    score = models.IntegerField(default=0)
+    trivia = models.ForeignKey(Trivia, related_name='participations', on_delete=models.CASCADE)
+    user = models.ForeignKey(CustomUser, related_name='participations', on_delete=models.CASCADE)  # Usamos CustomUser
+    answers = models.JSONField()  # Almacenar las respuestas como un diccionario JSON
+    score = models.IntegerField(default=0)  # Puntaje obtenido por el usuario
 
     def calculate_score(self):
+        """
+        Calcula el puntaje total basado en las respuestas y la dificultad de las preguntas.
+        - 1 punto para preguntas fáciles
+        - 2 puntos para preguntas medianas
+        - 3 puntos para preguntas difíciles
+        """
         total_score = 0
+
+        # Iterar sobre las respuestas proporcionadas
         for question_id, answer in self.answers.items():
-            question = Question.objects.get(id=question_id)
+            try:
+                question = Question.objects.get(id=question_id)
+            except Question.DoesNotExist:
+                continue  # Si no se encuentra la pregunta, se omite
+
+            # Verificar si la respuesta es correcta
             if question.correct_answer == answer:
+                # Calcular puntaje según la dificultad de la pregunta
                 if question.level == 'easy':
                     total_score += 1
                 elif question.level == 'medium':
                     total_score += 2
                 elif question.level == 'hard':
                     total_score += 3
+
+        # Asignar el puntaje total y guardar la participación
         self.score = total_score
         self.save()
+
+    def __str__(self):
+        return f"Participation of {self.user.username} in Trivia {self.trivia.name} - Score: {self.score}"
+
+    class Meta:
+        verbose_name = 'Participation'
+        verbose_name_plural = 'Participations'
