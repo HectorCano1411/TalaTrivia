@@ -91,7 +91,6 @@ MIDDLEWARE = [
 ]
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",  # Si estás usando un frontend en React
     "http://localhost:8000",  # Si necesitas que Django acepte solicitudes desde su propio dominio
 ]
 
@@ -128,6 +127,10 @@ TEMPLATES = [
         },
     },
 ]
+
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
+
 
 WSGI_APPLICATION = 'tala_trivia.wsgi.application'
 AUTH_USER_MODEL = 'users.CustomUser'
