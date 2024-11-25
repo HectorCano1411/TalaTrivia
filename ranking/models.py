@@ -12,3 +12,5 @@ class Ranking(models.Model):
 
     class Meta:
         ordering = ['-score']  # Highest score first
+def __str__(self):
+    return f"{self.user.username} - {self.trivia.name} - Score: {self.score}"
