@@ -11,6 +11,11 @@ from rest_framework import viewsets, status
 from rest_framework.permissions import IsAuthenticated
 from .permissions import IsAdminUserOrCreatorOrReadOnly
 
+from django.shortcuts import render
+# Vista para mostrar el listado de trivias
+def trivia_list(request):
+    trivias = Trivia.objects.all()  # Obtén las trivias de la base de datos
+    return render(request, 'trivias/list.html', {'trivias': trivias})
 
 
 class TriviaViewSet(viewsets.ModelViewSet):

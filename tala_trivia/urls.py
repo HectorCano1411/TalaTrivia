@@ -22,6 +22,9 @@ schema_view = get_schema_view(
 urlpatterns = [
     # Admin
     path("admin/", admin.site.urls),
+    
+    # Root redirige a users.urls
+    path("", include("users.urls")),  # Página de inicio
 
     # Auth (Login & Tokens)
     path(
