@@ -111,7 +111,8 @@ Primero, es necesario registrar un usuario para poder probar los endpoints.
 }
 ```
 
--Despues de generar el toke es posible comenzar a interactuar con los demas endpoint de la API
+-Despues de generar el toke es posible comenzar a interactuar con los demas endpoint de la API.
+
 -Es necesario incorporar el token que entrega como access en Autorization y seleccionar Bearer Token e ingresar en la casilla correspondiente.
 
 -Ejemplo de respuesta del token:
