@@ -1,15 +1,15 @@
-from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework import viewsets
 from .models import Trivia, Participation
-from .serializers import TriviaSerializer
+from .serializers import ParticipationSerializer, TriviaSerializer
 from rest_framework.exceptions import NotFound, ValidationError
 from questions.models import Question
 from django.db import models
 from users.models import CustomUser
-from trivias.models import Trivia
-
+from rest_framework import viewsets, status
+from rest_framework.permissions import IsAuthenticated
+from .permissions import IsAdminUserOrCreatorOrReadOnly
 
 
 
@@ -75,30 +75,41 @@ class TriviaViewSet(viewsets.ModelViewSet):
         trivia.users.add(user)
         return Response({'message': 'User added successfully'}, status=status.HTTP_200_OK)
 
-#### **`trivias/models.py`** (Optimización de `calculate_score`):
 
 
-# class Participation(models.Model):
-#     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-#     trivia = models.ForeignKey(Trivia, on_delete=models.CASCADE)
-#     answers = models.JSONField()  # Almacena las respuestas del usuario
-#     score = models.IntegerField(default=0)
-    
-#     def calculate_score(self):
-#         # Obtenemos todas las preguntas asociadas a la trivia
-#         trivia_questions = self.trivia.questions.all()
-#         question_dict = {question.id: question for question in trivia_questions}
+class ParticipationViewSet(viewsets.ModelViewSet):
+    queryset = Participation.objects.all()
+    serializer_class = ParticipationSerializer
+    permission_classes = [IsAuthenticated, IsAdminUserOrCreatorOrReadOnly]  # Puedes agregar tus permisos personalizados
 
-#         total_score = 0
-#         for question_id, answer in self.answers.items():
-#             # Verificar si la pregunta existe en las preguntas de la trivia
-#             if question_id not in question_dict:
-#                 raise ValidationError(f"Answer for question ID {question_id} does not belong to this trivia.")
-            
-#             question = question_dict[question_id]
-#             if question.correct_answer == answer:
-#                 total_score += {'easy': 1, 'medium': 2, 'hard': 3}.get(question.level, 0)
+    def perform_create(self, serializer):
+        """
+        Guarda la participación asociando el usuario autenticado como creador.
+        """
+        serializer.save(user=self.request.user)
 
-#         self.score = total_score
-#         self.save()
+    def get_queryset(self):
+        """
+        Filtra las participaciones por el usuario autenticado.
+        """
+        return Participation.objects.filter(user=self.request.user)
+
+    @action(detail=True, methods=['post'])
+    def submit_answers(self, request, pk=None):
+        """
+        Acción personalizada para enviar las respuestas a una participación.
+        Calcula el puntaje basado en las respuestas del usuario.
+        """
+        participation = self.get_object()  # Obtén la participación específica
+        answers = request.data.get('answers')  # Obtén las respuestas enviadas
+
+        if not answers:
+            return Response({"detail": "Se requieren respuestas para enviar."}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Actualiza las respuestas de la participación y recalcula el puntaje
+        participation.answers = answers
+        participation.calculate_score()  # Calcula el puntaje con el método de la participación
+        participation.save()
+
+        return Response({'score': participation.score}, status=status.HTTP_200_OK)
 

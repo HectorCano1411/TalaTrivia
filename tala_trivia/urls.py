@@ -35,17 +35,3 @@ urlpatterns = [
     # Si prefieres la documentación en formato ReDoc, también puedes agregarla:
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
 ]
-
-# # tala_trivia/urls.py (o el archivo `urls.py` principal de tu proyecto)
-# from django.contrib import admin
-# from django.urls import path, include
-# from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
-
-# urlpatterns = [
-#     path('admin/', admin.site.urls),
-#     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-#     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-#     path('api/users/', include('users.urls')),  # Asegúrate de incluir esta línea
-#     path('questions/', include('questions.urls')),  # Asegúrate de incluir esta línea
-# ]
-
