@@ -21,11 +21,7 @@ class CustomUser(AbstractUser):
         group, created = Group.objects.get_or_create(name=role_name)
         self.groups.add(group)
         self.save()
-    ROLE_CHOICES = (
-        ('admin', 'Admin'),
-        ('jugador', 'Jugador'),
-    )
-    role = models.CharField(max_length=10, choices=ROLE_CHOICES, default='jugador')
+ 
     
     def assign_role(self, role_name):
         """Asigna un rol (grupo) al usuario."""
@@ -38,8 +34,8 @@ class CustomUser(AbstractUser):
 
     def is_admin(self):
         """Verifica si el usuario tiene el rol de admin."""
-        return self.role == 'admin'
+        return self.groups.filter(name='admin').exists()
 
     def is_jugador(self):
         """Verifica si el usuario tiene el rol de jugador."""
-        return self.role == 'jugador'
+        return self.groups.filter(name='jugador').exists()

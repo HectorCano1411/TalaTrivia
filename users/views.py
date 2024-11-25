@@ -8,7 +8,7 @@ from rest_framework.generics import UpdateAPIView, DestroyAPIView
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.decorators import api_view
 from drf_yasg.utils import swagger_auto_schema # type: ignore
-from drf_yasg import openapi # type: ignore
+from drf_yasg import openapi  # type: ignore
 from .models import CustomUser
 from .serializers import UserSerializer
 

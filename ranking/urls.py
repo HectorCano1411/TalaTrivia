@@ -1,11 +1,10 @@
-# # ranking/urls.py
-# from django.urls import path
-# from .views import RankingListView, RankingDetailView, RankingCreateView, RankingEditView, RankingDeleteView
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+from ranking.views import RankingViewSet
 
-# urlpatterns = [
-#     path('ranking/', RankingListView.as_view(), name='ranking-list'),  # Listar todos los rankings
-#     path('ranking/<int:pk>/', RankingDetailView.as_view(), name='ranking-detail'),  # Detalle de un ranking
-#     path('ranking/create/', RankingCreateView.as_view(), name='ranking-create'),  # Crear un nuevo ranking
-#     path('ranking/<int:pk>/edit/', RankingEditView.as_view(), name='ranking-edit'),  # Editar un ranking
-#     path('ranking/<int:pk>/delete/', RankingDeleteView.as_view(), name='ranking-delete'),  # Eliminar un ranking
-# ]
+router = DefaultRouter()
+router.register(r'rankings', RankingViewSet, basename='ranking')  # Registro del ViewSet
+
+urlpatterns = [
+    path('api/', include(router.urls)),  # Incluye las rutas generadas por el enrutador
+]
