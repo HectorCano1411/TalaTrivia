@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 from django.contrib.auth.models import AbstractUser, Group, Permission
 from django.db import models
 
@@ -35,7 +34,6 @@ class CustomUser(AbstractUser):
     def is_jugador(self):
         """Verifica si el usuario tiene el rol de jugador."""
         return self.groups.filter(name='jugador').exists()
-=======
 from django.contrib.auth.models import AbstractUser, Group, Permission
 from django.db import models
 
@@ -77,4 +75,3 @@ class CustomUser(AbstractUser):
     def is_jugador(self):
         """Verifica si el usuario tiene el rol de jugador."""
         return self.groups.filter(name='jugador').exists()
->>>>>>> c82aeba54899a9f9a8494596c38f611d8cde3442

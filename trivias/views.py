@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework import viewsets
@@ -119,7 +118,6 @@ class ParticipationViewSet(viewsets.ModelViewSet):
 
         return Response({'score': participation.score}, status=status.HTTP_200_OK)
 
-=======
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework import viewsets
@@ -235,4 +233,3 @@ class ParticipationViewSet(viewsets.ModelViewSet):
 
         return Response({'score': participation.score}, status=status.HTTP_200_OK)
 
->>>>>>> c82aeba54899a9f9a8494596c38f611d8cde3442
