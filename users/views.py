@@ -11,21 +11,6 @@ from drf_yasg.utils import swagger_auto_schema # type: ignore
 from drf_yasg import openapi  # type: ignore
 from .models import CustomUser
 from .serializers import UserSerializer
-from django.views.generic import TemplateView
-from rest_framework import status, permissions
-from rest_framework import serializers
-
-class HomeView(TemplateView):
-    """Página de inicio"""
-
-    template_name = "home.html"
-
-    @swagger_auto_schema(
-        operation_description="Mostrar la página de inicio",
-        responses={200: "Página de inicio cargada correctamente"}
-    )
-    def get(self, request, *args, **kwargs):
-        return super().get(request, *args, **kwargs)
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -34,26 +19,6 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
     permission_classes = [IsAuthenticated]
 
-    @swagger_auto_schema(
-        operation_description="Operaciones CRUD para gestionar usuarios",
-        responses={
-            200: UserSerializer(many=True),
-            201: UserSerializer,
-            204: "Usuario eliminado"
-        }
-    )
-    def list(self, request, *args, **kwargs):
-        """Listar todos los usuarios"""
-        return super().list(request, *args, **kwargs)
-
-    @swagger_auto_schema(
-        operation_description="Crear un nuevo usuario",
-        request_body=UserSerializer,
-        responses={201: UserSerializer}
-    )
-    def create(self, request, *args, **kwargs):
-        """Crear un nuevo usuario"""
-        return super().create(request, *args, **kwargs)
 
 class UserListView(APIView):
     """Listar todos los usuarios"""
@@ -61,7 +26,7 @@ class UserListView(APIView):
 
     @swagger_auto_schema(
         operation_description="Obtiene la lista de usuarios",
-        responses={200: UserSerializer(many=True)}
+        responses={200: UserSerializer(many=True)},
     )
     def get(self, request, format=None):
         users = CustomUser.objects.all()
@@ -77,6 +42,7 @@ class IsAdminOrSelf(permissions.BasePermission):
         # Permite si el usuario autenticado es el mismo que el que quiere editar/eliminar
         return request.user.id == view.kwargs['pk']
 
+
 class UserEditView(UpdateAPIView):
     """Editar un usuario"""
     queryset = CustomUser.objects.all()
@@ -85,7 +51,7 @@ class UserEditView(UpdateAPIView):
 
     @swagger_auto_schema(
         operation_description="Editar un usuario por ID",
-        responses={200: UserSerializer()}
+        responses={200: UserSerializer()},
     )
     def patch(self, request, *args, **kwargs):
         return super().patch(request, *args, **kwargs)
@@ -98,7 +64,7 @@ class UserDeleteView(DestroyAPIView):
 
     @swagger_auto_schema(
         operation_description="Eliminar un usuario por ID",
-        responses={204: "Usuario eliminado con éxito"}
+        responses={204: "Usuario eliminado con éxito"},
     )
     def delete(self, request, *args, **kwargs):
         return super().delete(request, *args, **kwargs)
@@ -118,7 +84,6 @@ def delete_all_users(request):
     return Response({"message": "Todos los usuarios han sido eliminados."})
 
 
-
 class RegisterView(APIView):
     """Registrar un nuevo usuario"""
     permission_classes = [permissions.AllowAny]
@@ -129,65 +94,13 @@ class RegisterView(APIView):
         responses={201: openapi.Response("Usuario creado con éxito")},
     )
     def post(self, request):
-        # Validaciones y creación del usuario
-        required_fields = ['username', 'email', 'password']
-        for field in required_fields:
-            if field not in request.data:
-                return Response(
-                    {'error': f"El campo {field} es obligatorio."},
-                    status=status.HTTP_400_BAD_REQUEST
-                )
-
-        # Validar correo electrónico
-        email = request.data.get('email')
-        if not email or '@' not in email:
-            return Response(
-                {'error': "El correo electrónico no tiene un formato válido."},
-                status=status.HTTP_400_BAD_REQUEST
-            )
-
-        # Validar contraseña
-        password = request.data.get('password')
-        if len(password) < 8:
-            return Response(
-                {'error': "La contraseña debe tener al menos 8 caracteres."},
-                status=status.HTTP_400_BAD_REQUEST
-            )
-
-        # Validar si el nombre de usuario o el correo electrónico ya existen
-        username = request.data.get('username')
-        if CustomUser.objects.filter(username=username).exists():
-            return Response(
-                {'error': "El nombre de usuario ya está en uso."},
-                status=status.HTTP_400_BAD_REQUEST
-            )
-
-        if CustomUser.objects.filter(email=email).exists():
-            return Response(
-                {'error': "El correo electrónico ya está registrado."},
-                status=status.HTTP_400_BAD_REQUEST
-            )
-
-        # Obtener el rol de los datos de la solicitud, por defecto será 'jugador'
-        role = request.data.get('role', 'jugador')  # Asignamos un rol por defecto
-
-        # Validar que el rol sea uno de los permitidos
-        if role not in ['admin', 'jugador']:
-            return Response(
-                {'error': "El rol debe ser 'admin' o 'jugador'."},
-                status=status.HTTP_400_BAD_REQUEST
-            )
-
-        # Crear el usuario con el serializador
         serializer = UserSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)  # Lanzará excepción si los datos son inválidos
-        user = serializer.save()
+        if serializer.is_valid():
+            user = serializer.save()
+            user.assign_role('Jugador')  # Por defecto, asignamos el rol 'Jugador'
+            return Response({"message": "User created"}, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-        # Asignar el rol recibido
-        user.assign_role(role)  # Asignamos el rol recibido ('admin' o 'jugador')
-        user.save()
-
-        return Response({"message": "Usuario creado con éxito."}, status=status.HTTP_201_CREATED)
 
 class LoginView(APIView):
     """Iniciar sesión"""
@@ -210,7 +123,6 @@ class LoginView(APIView):
                     "application/json": {
                         "refresh": "string_refresh_token",
                         "access": "string_access_token",
-                        "role": "admin"  # Aquí agregamos el rol
                     }
                 },
             ),
@@ -224,6 +136,5 @@ class LoginView(APIView):
             return Response({
                 'refresh': str(refresh),
                 'access': str(refresh.access_token),
-                'role': user.role,  # Devolvemos el rol del usuario
             })
         return Response({'detail': 'Invalid credentials'}, status=status.HTTP_400_BAD_REQUEST)
