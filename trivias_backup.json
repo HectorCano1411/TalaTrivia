@@ -1,1 +1,0 @@
-[{"model": "trivias.trivia", "pk": 1, "fields": {"name": "Trivia de Ejemplo", "description": "Una trivia para probar", "creator": 1, "created_at": "2024-11-24T19:01:41.971Z", "users": [1, 2], "questions": [1, 3, 6]}}]
