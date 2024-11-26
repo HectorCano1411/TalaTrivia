@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   db:
-    image: postgres:latest
+    image: postgres:15
     environment:
       POSTGRES_DB: tala_trivia_db      # Nombre de la base de datos
       POSTGRES_USER: user              # Nombre de usuario de PostgreSQL

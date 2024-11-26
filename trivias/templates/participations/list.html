@@ -1,0 +1,38 @@
+<!-- templates/participations/list.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Participaciones</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1 class="mt-5">Mis Participaciones</h1>
+        <div id="participations-list">
+            <!-- Aquí se cargarán las participaciones del usuario -->
+        </div>
+    </div>
+
+    <script>
+        // Usamos Fetch API para obtener las participaciones del usuario
+        fetch('/api/participations/')  // Este endpoint debería devolver las participaciones del usuario autenticado
+            .then(response => response.json())
+            .then(data => {
+                const participationsList = document.getElementById('participations-list');
+                data.forEach(participation => {
+                    const participationElement = document.createElement('div');
+                    participationElement.classList.add('card', 'mb-3');
+                    participationElement.innerHTML = `
+                        <div class="card-body">
+                            <h5 class="card-title">${participation.trivia.name}</h5>
+                            <p class="card-text">Puntaje: ${participation.score}</p>
+                        </div>
+                    `;
+                    participationsList.appendChild(participationElement);
+                });
+            });
+    </script>
+</body>
+</html>
