@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 """
 Django settings for tala_trivia project.
 
@@ -199,7 +198,6 @@ SWAGGER_SETTINGS = {
     'USE_SESSION_AUTH': False,
     'VALIDATOR_URL': None,
 }
-=======
 """
 Django settings for tala_trivia project.
 
@@ -397,4 +395,3 @@ SWAGGER_SETTINGS = {
     'USE_SESSION_AUTH': False,
     'VALIDATOR_URL': None,
 }
->>>>>>> c82aeba54899a9f9a8494596c38f611d8cde3442
