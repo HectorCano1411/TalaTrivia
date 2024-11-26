@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 from django.urls import path
 from .views import HomeView, RegisterView, LoginView, UserDeleteView, UserEditView, UserListView, delete_all_users
 
@@ -18,7 +17,6 @@ urlpatterns = [
     # Eliminar todos los usuarios (solo superusuario)
     path('users/delete-all/', delete_all_users, name='delete-all-users'),
 ]
-=======
 from django.urls import path
 from .views import RegisterView, LoginView, UserDeleteView, UserEditView, UserListView, delete_all_users
 
@@ -36,4 +34,3 @@ urlpatterns = [
     # Eliminar todos los usuarios (solo superusuario)
     path('users/delete-all/', delete_all_users, name='delete-all-users'),
 ]
->>>>>>> c82aeba54899a9f9a8494596c38f611d8cde3442

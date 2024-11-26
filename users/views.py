@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 from rest_framework import viewsets, status, permissions, generics
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -228,7 +227,6 @@ class LoginView(APIView):
                 'role': user.role,  # Devolvemos el rol del usuario
             })
         return Response({'detail': 'Invalid credentials'}, status=status.HTTP_400_BAD_REQUEST)
-=======
 from rest_framework import viewsets, status, permissions, generics
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -369,4 +367,3 @@ class LoginView(APIView):
                 'access': str(refresh.access_token),
             })
         return Response({'detail': 'Invalid credentials'}, status=status.HTTP_400_BAD_REQUEST)
->>>>>>> c82aeba54899a9f9a8494596c38f611d8cde3442

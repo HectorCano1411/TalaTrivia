@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 from argparse import Action
 from drf_yasg.utils import swagger_auto_schema # type: ignore
 from rest_framework import viewsets
@@ -43,7 +42,6 @@ class RankingViewSet(viewsets.ModelViewSet):
         
         # Responder con los rankings de todas las trivias
         return Response(serializer.data)
-=======
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -112,4 +110,3 @@ class RankingViewSet(viewsets.ModelViewSet):
         
 #         serializer = RankingSerializer(rankings, many=True)
 #         return Response(serializer.data)
->>>>>>> c82aeba54899a9f9a8494596c38f611d8cde3442

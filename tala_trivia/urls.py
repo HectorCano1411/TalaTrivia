@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
@@ -57,7 +56,6 @@ urlpatterns = [
         name="schema-redoc",
     ),
 ]
-=======
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
@@ -113,4 +111,3 @@ urlpatterns = [
         name="schema-redoc",
     ),
 ]
->>>>>>> c82aeba54899a9f9a8494596c38f611d8cde3442
