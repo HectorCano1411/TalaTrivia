@@ -130,36 +130,36 @@ Primero, es necesario registrar un usuario para poder probar los endpoints.
 -Se dejan como recursos dos archivos con preguntas y trivias para poder inserta mediante Postgresql
 
 
-# Conéctate al contenedor de Docker donde se ejecuta Django
-docker exec -it tala_trivia-web-1 bash
+**Conéctate al contenedor de Docker donde se ejecuta Django**
+-docker exec -it tala_trivia-web-1 bash
 
-# Realiza las migraciones para la app 'users'
-python manage.py makemigrations users
-# Si no hay cambios, muestra "No changes detected in app 'users'"
+**Realiza las migraciones para la app 'users'**
+-python manage.py makemigrations users
+-Si no hay cambios, muestra "No changes detected in app 'users'"**
 
-python manage.py migrate users
-# Si ya no hay migraciones pendientes, muestra "No migrations to apply."
+-python manage.py migrate users
+-Si ya no hay migraciones pendientes, muestra "No migrations to apply."
 
-# Realiza las migraciones para la app 'questions'
-python manage.py makemigrations questions
-# Si no hay cambios, muestra "No changes detected in app 'questions'"
+**Realiza las migraciones para la app 'questions'**
+-python manage.py makemigrations questions
+-Si no hay cambios, muestra "No changes detected in app 'questions'"
 
-python manage.py migrate questions
-# Si ya no hay migraciones pendientes, muestra "No migrations to apply."
+-python manage.py migrate questions
+-Si ya no hay migraciones pendientes, muestra "No migrations to apply."
 
-# Realiza las migraciones para la app 'trivias'
-python manage.py makemigrations trivias
-# Si no hay cambios, muestra "No changes detected in app 'trivias'"
+**Realiza las migraciones para la app 'trivias'**
+-python manage.py makemigrations trivias
+-Si no hay cambios, muestra "No changes detected in app 'trivias'"
 
-python manage.py migrate trivias
-# Si ya no hay migraciones pendientes, muestra "No migrations to apply."
+-python manage.py migrate trivias
+-Si ya no hay migraciones pendientes, muestra "No migrations to apply."
 
-# Realiza las migraciones para la app 'ranking'
-python manage.py makemigrations ranking
-# Si no hay cambios, muestra "No changes detected in app 'ranking'"
+**Realiza las migraciones para la app 'ranking'**
+-python manage.py makemigrations ranking
+-Si no hay cambios, muestra "No changes detected in app 'ranking'"
 
-python manage.py migrate ranking
-# Si ya no hay migraciones pendientes, muestra "No migrations to apply."
+-python manage.py migrate ranking
+-Si ya no hay migraciones pendientes, muestra "No migrations to apply."
 
 # Crear superusuario para Administrador de Django
 
@@ -170,10 +170,10 @@ python manage.py migrate ranking
 -Email address: admin@admin.com
 -Password:
 -Password (again):
-# El sistema podría mostrar algunos errores relacionados con la seguridad de la contraseña:
-# - "The password is too similar to the username."
-# - "This password is too short. It must contain at least 8 characters."
-# - "This password is too common."
+-El sistema podría mostrar algunos errores relacionados con la seguridad de la contraseña:
+- "The password is too similar to the username."
+- "This password is too short. It must contain at least 8 characters."
+- "This password is too common."
 
 -Bypass password validation and create user anyway? [y/N]: y
 -Superuser created successfully.
