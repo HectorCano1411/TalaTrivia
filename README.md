@@ -24,6 +24,24 @@ TalaTrivia es un juego de preguntas y respuestas enfocado en temas de recursos h
 ### Ranking de Usuarios
 - Generar rankings basados en los puntajes obtenidos en trivias específicas.
 
+
+# Capturas de pantalla
+
+
+## Encabezado de la API
+![01-ApiSwagger](https://github.com/user-attachments/assets/be96a673-ce41-4ce0-b132-cb076aeb47d9)
+
+## Cuerpo de la API
+
+![02-ApiSwagger](https://github.com/user-attachments/assets/072439f8-4c14-4d45-a267-bb1c32ea4f65)
+
+## Models de la API
+
+![04-ApiSwagger](https://github.com/user-attachments/assets/38ab2d44-11c3-4f14-aa6b-40dea1fcc838)
+
+
+
+
 ---
 
 ## Configuración del Proyecto
@@ -123,4 +141,50 @@ Primero, es necesario registrar un usuario para poder probar los endpoints.
     "access": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzMyNTcyNTc0LCJpYXQiOjE3MzI1NzA3NzQsImp0aSI6ImY5MzkzZTYzMTU1NTRmMmNhODBmNzY2ODYyMWYxZjIzIiwidXNlcl9pZCI6MX0.K0z35E-N53zIKwyEnm7WQGMc5NvAnwIjTlnK6Tbrtrw"
 }
 ```
+
+# Configuración de PostgreSQL pgAdmin
+
+![01-conf](https://github.com/user-attachments/assets/089c4a35-7674-4afe-8c73-3af990cd6e29)
+
+![02-conf](https://github.com/user-attachments/assets/85e633ca-7358-4cff-acef-732fba968341)
+
+![03-conf](https://github.com/user-attachments/assets/a67abbb5-ea82-4d96-a090-7398be0781cb)
+
+![04-conf](https://github.com/user-attachments/assets/40c9a1ad-5515-4beb-a72e-aa195b141f6e)
+
+![05-conf](https://github.com/user-attachments/assets/89f31dee-2891-4d7f-962a-49c6453b2309)
+
+### Realizar las migraciones 
+
+-python manage.py makemigrations  
+-python manage.py migrate
+
+### Api users:
+
+-python manage.py makemigrations users  
+-python manage.py migrate users  
+
+
+### Api trivias:
+
+-python manage.py makemigrations trivias  
+-python manage.py migrate trivias
+
+
+### Api questions:
+
+-python manage.py makemigrations questions  
+-python manage.py migrate questions
+
+
+### Api ranking:
+
+-python manage.py makemigrations ranking  
+-python manage.py migrate ranking
+
+
+### Crear superusuario 
+
+![crearSuperUsuario](https://github.com/user-attachments/assets/60387ec1-228c-4b41-bf37-988585c917fd)
+
 -Se dejan como recursos dos archivos con preguntas y trivias para poder inserta mediante Postgresql
