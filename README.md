@@ -156,7 +156,7 @@ Primero, es necesario registrar un usuario para poder probar los endpoints.
 
 ### Realizar las migraciones 
 
--python manage.py makemigrations
+-python manage.py makemigrations  
 -python manage.py migrate
 
 ### Api users:
