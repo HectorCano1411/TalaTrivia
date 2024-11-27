@@ -161,25 +161,25 @@ Primero, es necesario registrar un usuario para poder probar los endpoints.
 
 ### Api users:
 
--python manage.py makemigrations users
--python manage.py migrate users
+-python manage.py makemigrations users  
+-python manage.py migrate users  
 
 
 ### Api trivias:
 
--python manage.py makemigrations trivias
+-python manage.py makemigrations trivias  
 -python manage.py migrate trivias
 
 
 ### Api questions:
 
--python manage.py makemigrations questions
+-python manage.py makemigrations questions  
 -python manage.py migrate questions
 
 
 ### Api ranking:
 
--python manage.py makemigrations ranking
+-python manage.py makemigrations ranking  
 -python manage.py migrate ranking
 
 
