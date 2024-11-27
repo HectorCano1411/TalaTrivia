@@ -17,7 +17,7 @@
 
     <script>
         // Usamos Fetch API para obtener las trivias desde el backend
-        fetch('/api/trivias/')  // Endpoint correcto
+        fetch('/api/trivias/trivias')  // Endpoint correcto
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Error al obtener las trivias.');
@@ -27,12 +27,16 @@
             .then(data => {
                 const triviasList = document.getElementById('trivias-list');
                 
-                if (data.length === 0) {
+                // Verifica si no hay datos
+                if (!data || data.length === 0) {
                     triviasList.innerHTML = '<p>No hay trivias disponibles.</p>';
                     return;
                 }
     
-                data.forEach(trivia => {
+                // Si los datos están paginados, asegúrate de que estás accediendo a la propiedad correcta
+                const trivias = data.results || data; // Para manejar la paginación si es necesario
+    
+                trivias.forEach(trivia => {
                     const triviaElement = document.createElement('div');
                     triviaElement.classList.add('col-md-4');
                     triviaElement.innerHTML = `
@@ -46,6 +50,15 @@
                     `;
                     triviasList.appendChild(triviaElement);
                 });
+    
+                // Si hay más páginas de trivias (paginación), muestra el siguiente botón o enlace
+                if (data.next) {
+                    const loadMoreButton = document.createElement('button');
+                    loadMoreButton.textContent = 'Cargar más trivias';
+                    loadMoreButton.classList.add('btn', 'btn-secondary');
+                    loadMoreButton.onclick = () => loadMoreTrivias(data.next);
+                    triviasList.appendChild(loadMoreButton);
+                }
             })
             .catch(error => {
                 console.error('Error:', error);
@@ -56,7 +69,42 @@
         function participateTrivia(triviaId) {
             window.location.href = `/trivias/${triviaId}/participate`;  // Redirige a la página de participación de la trivia
         }
+    
+        function loadMoreTrivias(nextPageUrl) {
+            fetch(nextPageUrl)  // Llama a la siguiente página de trivias
+                .then(response => response.json())
+                .then(data => {
+                    const triviasList = document.getElementById('trivias-list');
+                    data.results.forEach(trivia => {
+                        const triviaElement = document.createElement('div');
+                        triviaElement.classList.add('col-md-4');
+                        triviaElement.innerHTML = `
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <h5 class="card-title">${trivia.name}</h5>
+                                    <p class="card-text">${trivia.description}</p>
+                                    <button class="btn btn-primary" onclick="participateTrivia(${trivia.id})">Participar</button>
+                                </div>
+                            </div>
+                        `;
+                        triviasList.appendChild(triviaElement);
+                    });
+    
+                    // Si hay más páginas de trivias, sigue mostrando el botón de cargar más
+                    if (data.next) {
+                        const loadMoreButton = document.createElement('button');
+                        loadMoreButton.textContent = 'Cargar más trivias';
+                        loadMoreButton.classList.add('btn', 'btn-secondary');
+                        loadMoreButton.onclick = () => loadMoreTrivias(data.next);
+                        triviasList.appendChild(loadMoreButton);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error al cargar más trivias:', error);
+                });
+        }
     </script>
+    
     
 </body>
 </html>

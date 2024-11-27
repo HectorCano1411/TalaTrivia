@@ -14,4 +14,9 @@ router.register(r'participations', ParticipationViewSet)
 urlpatterns = [
     # Incluye las rutas generadas por el router
     path('', include(router.urls)),  # Esto incluirá las rutas del ViewSet automáticamente
+    
+    
+    path('redirect-to-trivias/', views.trivias_redirect, name='trivias-redirect'),
+
 ]
+
