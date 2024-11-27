@@ -24,6 +24,15 @@ TalaTrivia es un juego de preguntas y respuestas enfocado en temas de recursos h
 ### Ranking de Usuarios
 - Generar rankings basados en los puntajes obtenidos en trivias específicas.
 
+
+# Capturas de pantalla
+![Encabezado de la API](images/01-ApiSwagger.png)
+
+![Cuerpo de la API](images/02-ApiSwagger.png)
+
+![Models de la API](images/04-ApiSwagger.png)
+
+
 ---
 
 ## Configuración del Proyecto
