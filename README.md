@@ -26,11 +26,20 @@ TalaTrivia es un juego de preguntas y respuestas enfocado en temas de recursos h
 
 
 # Capturas de pantalla
-![Encabezado de la API](images/01-ApiSwagger.png)
 
-![Cuerpo de la API](images/02-ApiSwagger.png)
 
-![Models de la API](images/04-ApiSwagger.png)
+## Encabezado de la API
+![01-ApiSwagger](https://github.com/user-attachments/assets/be96a673-ce41-4ce0-b132-cb076aeb47d9)
+
+## Cuerpo de la API
+
+![02-ApiSwagger](https://github.com/user-attachments/assets/072439f8-4c14-4d45-a267-bb1c32ea4f65)
+
+## Models de la API
+
+![04-ApiSwagger](https://github.com/user-attachments/assets/38ab2d44-11c3-4f14-aa6b-40dea1fcc838)
+
+
 
 
 ---
