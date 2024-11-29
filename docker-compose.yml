@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   db:
     image: postgres:15
@@ -15,18 +13,24 @@ services:
       - tala_network
 
   web:
-    build: .
-    command: python manage.py runserver 0.0.0.0:8000
+    build:
+      context: ./backend  # Apunta a la carpeta que contiene el proyecto Django
     volumes:
-      - .:/app
+      - ./backend:/app   # Sincroniza la carpeta backend con el contenedor
+    working_dir: /app      # Define el directorio de trabajo en el contenedor
     ports:
-      - "8000:8000"
+      - "8000:8000"        # Puerto para el servidor de desarrollo de Django
     depends_on:
       - db
+    environment:
+      - DATABASE_HOST=db
+      - DATABASE_NAME=tala_trivia_db
+      - DATABASE_USER=user
+      - DATABASE_PASSWORD=password
     networks:
       - tala_network
 
-  pgadmin:
+  pgadmin:  
     image: dpage/pgadmin4:latest
     environment:
       PGADMIN_DEFAULT_EMAIL: admin@admin.com   # Email para pgAdmin
