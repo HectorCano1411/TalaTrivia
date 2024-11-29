@@ -357,7 +357,4 @@ docker ps -a
 - El archivo `docker-compose.yml` debe estar configurado correctamente para que estos comandos funcionen sin problemas.
 
 
-## Comando para instalar las librerias de django 
 
-- pip install drf-yasg django-extensions
-- pip install -r requirements.txt
